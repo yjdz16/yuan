@@ -29,8 +29,8 @@ template<class T>
 class Cassemblage {
 public:
 	int num;
-	//T *x;
-	T x[2000];
+	T *x;
+	//T x[2000];
 	void Set(T *a, int n);
 	void Show();
 	//~Cassemblage();
@@ -38,8 +38,8 @@ public:
 	Cassemblage(const Cassemblage& a);
 	Cassemblage<T> operator + (Cassemblage<T> b) { //定义重载运算符函数
 		int num_new = num;
-		//T *x_new = new T[a.num + b.num];
-		T x_new[2000];
+		T *x_new = new T[num + b.num];
+		//T x_new[2000];
 		for (int i = 0; i<num; i++) {
 			x_new[i].numerator = x[i].numerator;
 			x_new[i].denominator = x[i].denominator;
@@ -55,13 +55,13 @@ public:
 		}
 		Cassemblage <T> z_new;
 		z_new.Set(x_new, num_new);
-		//delete(x_new);
+		delete(x_new);
 		return z_new;
 	}
 	Cassemblage<T> operator - (Cassemblage<T> b) { //定义重载运算符函数
 		int num_new = 0;
-		//T *x_new = new T[a.num];
-		T x_new[1000];
+		T *x_new = new T[num];
+		//T x_new[1000];
 		for (int i = 0; i<num; i++) {
 			for (int j = 0; j<b.num; j++) {
 				if (x[i].Value() == b.x[j].Value())
@@ -73,14 +73,14 @@ public:
 		}
 		Cassemblage <T> z_new;
 		z_new.Set(x_new, num_new);
-		//delete(x_new);
+		delete(x_new);
 		return z_new;
 	}
 
 	Cassemblage<T> operator & (Cassemblage<T> b) { //定义重载运算符函数
 		int num_new = 0;
-		//T *x_new = new T[a.num > b.num ? a.num : b.num];
-		T x_new[1000];
+		T *x_new = new T[num > b.num ? num : b.num];
+		//T x_new[1000];
 		for (int i = 0; i<num; i++) {
 			for (int j = 0; j<b.num; j++) {
 				if (x[i].Value() == b.x[j].Value()) {
@@ -91,7 +91,7 @@ public:
 		}
 		Cassemblage <T> z_new;
 		z_new.Set(x_new, num_new);
-		//delete(x_new);
+		delete(x_new);
 		return z_new;
 	}
 };
@@ -104,7 +104,7 @@ public:
 template<class T>
 Cassemblage<T>::Cassemblage(const Cassemblage& a) { //定义重载运算符函数
 	num = a.num;
-	//x = new T[num];
+	x = new T[num];
 	for (int i = 0; i<num; i++) {  //将元素存入集合
 		x[i] = a.x[i];
 	}
@@ -112,7 +112,7 @@ Cassemblage<T>::Cassemblage(const Cassemblage& a) { //定义重载运算符函�
 
 template<class T>
 void Cassemblage<T>::Set(T *a, int n) {
-	//x = new T[n];
+	x = new T[n];
 	num = 0;
 	for (int i = 0; i<n; i++) {  //将元素存入集合
 		if (num == 0) {
