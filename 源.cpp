@@ -3,12 +3,12 @@ using namespace std;
 
 class Fraction {
 public:
-	int numerator;  //·Ö×Ó
-	int denominator;  //·ÖÄ¸
+	int numerator;  //åˆ†å­
+	int denominator;  //åˆ†æ¯
 	double Value() {
 		return 1.0 * numerator / denominator;
 	}
-	friend istream& operator >> (istream&, Fraction&);  //ÊäÈëÁ÷ÖØ¶¨Òå
+	friend istream& operator >> (istream&, Fraction&);  //è¾“å…¥æµé‡å®šä¹‰
 };
 
 istream& operator >> (istream& input, Fraction& C)
@@ -36,13 +36,13 @@ public:
 	//~Cassemblage();
 	Cassemblage() {};
 	Cassemblage(const Cassemblage& a);
-	friend Cassemblage<T> operator + (Cassemblage<T> a, Cassemblage<T> b) { //¶¨ÒåÖØÔØÔËËã·ûº¯Êı
-		int num_new = a.num;
+	Cassemblage<T> operator + (Cassemblage<T> b) { //å®šä¹‰é‡è½½è¿ç®—ç¬¦å‡½æ•°
+		int num_new = num;
 		//T *x_new = new T[a.num + b.num];
 		T x_new[2000];
-		for (int i = 0; i<a.num; i++) {
-			x_new[i].numerator = a.x[i].numerator;
-			x_new[i].denominator = a.x[i].denominator;
+		for (int i = 0; i<num; i++) {
+			x_new[i].numerator = x[i].numerator;
+			x_new[i].denominator = x[i].denominator;
 		}
 		for (int i = 0; i<b.num; i++) {
 			for (int j = 0; j<num_new; j++) {
@@ -58,16 +58,16 @@ public:
 		//delete(x_new);
 		return z_new;
 	}
-	friend Cassemblage<T> operator - (Cassemblage<T> a, Cassemblage<T> b) { //¶¨ÒåÖØÔØÔËËã·ûº¯Êı
+	Cassemblage<T> operator - (Cassemblage<T> b) { //å®šä¹‰é‡è½½è¿ç®—ç¬¦å‡½æ•°
 		int num_new = 0;
 		//T *x_new = new T[a.num];
 		T x_new[1000];
-		for (int i = 0; i<a.num; i++) {
+		for (int i = 0; i<num; i++) {
 			for (int j = 0; j<b.num; j++) {
-				if (a.x[i].Value() == b.x[j].Value())
+				if (x[i].Value() == b.x[j].Value())
 					break;
 				if (j == b.num - 1) {
-					x_new[num_new++] = a.x[i];
+					x_new[num_new++] = x[i];
 				}
 			}
 		}
@@ -77,14 +77,14 @@ public:
 		return z_new;
 	}
 
-	friend Cassemblage<T> operator & (Cassemblage<T> a, Cassemblage<T> b) { //¶¨ÒåÖØÔØÔËËã·ûº¯Êı
+	Cassemblage<T> operator & (Cassemblage<T> b) { //å®šä¹‰é‡è½½è¿ç®—ç¬¦å‡½æ•°
 		int num_new = 0;
 		//T *x_new = new T[a.num > b.num ? a.num : b.num];
 		T x_new[1000];
-		for (int i = 0; i<a.num; i++) {
+		for (int i = 0; i<num; i++) {
 			for (int j = 0; j<b.num; j++) {
-				if (a.x[i].Value() == b.x[j].Value()) {
-					x_new[num_new++] = a.x[i];
+				if (x[i].Value() == b.x[j].Value()) {
+					x_new[num_new++] = x[i];
 					break;
 				}
 			}
@@ -102,10 +102,10 @@ public:
 //}
 
 template<class T>
-Cassemblage<T>::Cassemblage(const Cassemblage& a) { //¶¨ÒåÖØÔØÔËËã·ûº¯Êı
+Cassemblage<T>::Cassemblage(const Cassemblage& a) { //å®šä¹‰é‡è½½è¿ç®—ç¬¦å‡½æ•°
 	num = a.num;
 	//x = new T[num];
-	for (int i = 0; i<num; i++) {  //½«ÔªËØ´æÈë¼¯ºÏ
+	for (int i = 0; i<num; i++) {  //å°†å…ƒç´ å­˜å…¥é›†åˆ
 		x[i] = a.x[i];
 	}
 }
@@ -114,7 +114,7 @@ template<class T>
 void Cassemblage<T>::Set(T *a, int n) {
 	//x = new T[n];
 	num = 0;
-	for (int i = 0; i<n; i++) {  //½«ÔªËØ´æÈë¼¯ºÏ
+	for (int i = 0; i<n; i++) {  //å°†å…ƒç´ å­˜å…¥é›†åˆ
 		if (num == 0) {
 			x[num] = a[i];
 			int gcd = Gcd(x[num].numerator, x[num].denominator);
